@@ -7,6 +7,7 @@ export default function NavTabs() {
   const pathname = usePathname()
   const isCalculadora = pathname === '/'
   const isCocteles = pathname.startsWith('/cocteles')
+  const isAcerca = pathname.startsWith('/acerca')
 
   return (
     <nav className="flex gap-1 mt-4">
@@ -29,6 +30,16 @@ export default function NavTabs() {
         }`}
       >
         🍹 Cocteles
+      </Link>
+      <Link
+        href="/acerca"
+        className={`px-4 py-1.5 rounded-full text-sm font-semibold transition-colors ${
+          isAcerca
+            ? 'bg-white text-amber-700'
+            : 'text-amber-100 hover:bg-amber-400/40'
+        }`}
+      >
+        Acerca
       </Link>
     </nav>
   )
