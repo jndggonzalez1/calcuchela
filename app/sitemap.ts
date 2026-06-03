@@ -38,5 +38,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }))
 
-  return [...staticRoutes, ...recipeRoutes]
+  const grupoRoutes: MetadataRoute.Sitemap = [10, 15, 20, 25, 30].map((n) => ({
+    url: `${base}/para/${n}-personas`,
+    lastModified: new Date(),
+    changeFrequency: 'yearly' as const,
+    priority: 0.8,
+  }))
+
+  return [...staticRoutes, ...recipeRoutes, ...grupoRoutes]
 }
