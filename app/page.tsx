@@ -570,6 +570,22 @@ export default function Home() {
               </div>
             </Card>
 
+            {/* Consejos rápidos — abajo del estimador */}
+            <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-5">
+              <h2 className="text-lg font-bold text-gray-900 mb-3">Consejos rápidos</h2>
+              <div className="space-y-3">
+                {getTips(adults, cocktails.size).map((tip) => (
+                  <div key={tip.title} className="flex gap-3">
+                    <span className="text-2xl leading-none shrink-0">{tip.emoji}</span>
+                    <div>
+                      <p className="font-semibold text-sm text-gray-900">{tip.title}</p>
+                      <p className="text-sm text-gray-500 leading-snug mt-0.5">{tip.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Compartir */}
             <Card title="Compartir 📤" className="no-print">
               <div className="grid grid-cols-2 gap-3">
