@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { EventType, GuestType, CocktailKey, SnackKey, Prices, CalculationResult } from '@/lib/types'
 import { calculate, calculateTotal, formatWhatsApp } from '@/lib/calculator'
 import { COCKTAILS, EVENT_OPTIONS, GUEST_OPTIONS, DEFAULT_PRICES, SNACK_OPTIONS } from '@/lib/constants'
@@ -207,9 +207,31 @@ function PriceEditor({
 
 // ─── Main page ───────────────────────────────────────────────────
 
+const STORAGE_KEY = 'calcuchela_state'
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    const s = JSON.parse(raw)
+    return {
+      hombres: s.hombres ?? 3,
+      mujeres: s.mujeres ?? 3,
+      ninos: s.ninos ?? 0,
+      eventType: (s.eventType ?? 'carne-asada') as EventType,
+      hours: s.hours ?? 4,
+      guestType: (s.guestType ?? 'normal') as GuestType,
+      cocktails: new Set<CocktailKey>(s.cocktails ?? []),
+      snacks: new Set<SnackKey>(s.snacks ?? []),
+    }
+  } catch {
+    return null
+  }
+}
+
 export default function Home() {
-  const [hombres, setHombres] = useState(0)
-  const [mujeres, setMujeres] = useState(0)
+  const [hombres, setHombres] = useState(3)
+  const [mujeres, setMujeres] = useState(3)
   const [ninos, setNinos] = useState(0)
   const [eventType, setEventType] = useState<EventType>('carne-asada')
   const [hours, setHours] = useState(4)
@@ -219,6 +241,30 @@ export default function Home() {
   const [showSnacks, setShowSnacks] = useState(false)
   const [prices, setPrices] = useState<Prices>(DEFAULT_PRICES)
   const [showPrices, setShowPrices] = useState(false)
+
+  useEffect(() => {
+    const saved = loadState()
+    if (saved) {
+      setHombres(saved.hombres)
+      setMujeres(saved.mujeres)
+      setNinos(saved.ninos)
+      setEventType(saved.eventType)
+      setHours(saved.hours)
+      setGuestType(saved.guestType)
+      setCocktails(saved.cocktails)
+      setSnacks(saved.snacks)
+    }
+  }, [])
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        hombres, mujeres, ninos, eventType, hours, guestType,
+        cocktails: Array.from(cocktails),
+        snacks: Array.from(snacks),
+      }))
+    } catch {}
+  }, [hombres, mujeres, ninos, eventType, hours, guestType, cocktails, snacks])
 
   const adults = hombres + mujeres
   const totalPeople = adults + ninos
