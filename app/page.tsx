@@ -471,8 +471,15 @@ export default function Home() {
         )}
       </main>
 
-      <footer className="text-center py-8 text-gray-400 text-sm no-print">
-        Hecho con 🍺 en México · Calcuchela 2026
+      <footer className="text-center py-8 text-gray-400 text-sm no-print space-y-2">
+        <div className="flex items-center justify-center gap-4">
+          <a href="/acerca" className="hover:text-amber-600 transition-colors">Acerca de</a>
+          <span>·</span>
+          <a href="/privacidad" className="hover:text-amber-600 transition-colors">Privacidad</a>
+          <span>·</span>
+          <a href="mailto:hola@calcuchela.com" className="hover:text-amber-600 transition-colors">Contacto</a>
+        </div>
+        <p>Hecho con 🍺 en México · Calcuchela 2026</p>
       </footer>
     </div>
   )
