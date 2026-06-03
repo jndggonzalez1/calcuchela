@@ -18,6 +18,27 @@ export interface CocktailInfo {
   ingredients: string
 }
 
+export interface RecipePortion {
+  ingredient: string
+  amount: string
+}
+
+export interface CocktailRecipe {
+  slug: string
+  key: CocktailKey
+  emoji: string
+  name: string
+  base: string
+  description: string
+  difficulty: 'Fácil' | 'Medio' | 'Difícil'
+  time: string
+  glassType: string
+  portions: RecipePortion[]
+  steps: string[]
+  tip?: string
+  searchTitle: string
+}
+
 export interface CalculationResult {
   cerveza: { units: number; sixPacks: number; cajas: number }
   tequila: number

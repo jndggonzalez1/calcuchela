@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { EventType, GuestType, CocktailKey, Prices, CalculationResult } from '@/lib/types'
 import { calculate, calculateTotal, formatWhatsApp } from '@/lib/calculator'
 import { COCKTAILS, EVENT_OPTIONS, GUEST_OPTIONS, DEFAULT_PRICES } from '@/lib/constants'
+import NavTabs from '@/components/NavTabs'
 
 // ─── Sub-components ──────────────────────────────────────────────
 
@@ -202,6 +203,7 @@ export default function Home() {
           <p className="mt-2 text-amber-100 text-lg font-medium">
             Nunca te quedes sin chela en la fiesta 🍺
           </p>
+          <NavTabs />
         </div>
       </header>
 
