@@ -90,6 +90,63 @@ function pl(n: number, singular: string, plural?: string) {
   return `${n} ${n === 1 ? singular : (plural ?? singular + 's')}`
 }
 
+// ─── Tips ────────────────────────────────────────────────────────
+
+type Tip = { emoji: string; title: string; body: string }
+
+const ALL_TIPS: Tip[] = [
+  {
+    emoji: '🧊',
+    title: 'El hielo se derrite el doble en verano',
+    body: 'Si hace calor, lleva una bolsa extra. Guárdala en hielera cerrada hasta que la necesites.',
+  },
+  {
+    emoji: '🍋',
+    title: 'Los limones se acaban primero',
+    body: 'Siempre lleva el doble de los que crees. Son los primeros en desaparecer de la mesa.',
+  },
+  {
+    emoji: '⚡',
+    title: 'Truco para enfriar rápido',
+    body: 'Agua + hielo + un puño de sal en la hielera. En 15 minutos están bien heladas.',
+  },
+  {
+    emoji: '🛒',
+    title: 'Compra el día anterior',
+    body: 'Evita el caos del día del evento. Las tiendas grandes tienen mejor precio entre semana.',
+  },
+  {
+    emoji: '🤙',
+    title: 'Siempre sobra más de lo que crees',
+    body: 'Nadie se queja de chelas de más. Lo que sobra se guarda para la próxima.',
+  },
+  {
+    emoji: '🧊',
+    title: 'Designa al encargado del hielo',
+    body: 'En fiestas grandes siempre se acaba el hielo a media fiesta. Que alguien sea el responsable de checar.',
+  },
+  {
+    emoji: '🍺',
+    title: 'La cerveza fría ocupa más espacio',
+    body: 'Cuenta al menos 1 litro de hielo por cada 3 cervezas para mantenerlas bien frías.',
+  },
+  {
+    emoji: '📦',
+    title: 'Las cajas completas salen más baratas',
+    body: 'Si vas a comprar más de 18 cervezas, casi siempre conviene comprar caja aunque sobre.',
+  },
+]
+
+function getTips(adults: number, cocktailsSize: number): Tip[] {
+  const picked: Tip[] = []
+  picked.push(ALL_TIPS[0]) // hielo/verano siempre
+  picked.push(ALL_TIPS[1]) // limones siempre
+  if (cocktailsSize > 0) picked.push(ALL_TIPS[2]) // truco enfriar si hay cocteles
+  else if (adults >= 15) picked.push(ALL_TIPS[5]) // encargado del hielo si grupo grande
+  else picked.push(ALL_TIPS[4]) // siempre sobra
+  return picked
+}
+
 // ─── Price editor ────────────────────────────────────────────────
 
 type PriceRow = { key: keyof Prices; label: string; unit: string; qty: number }
@@ -459,6 +516,22 @@ export default function Home() {
                 </>
               )}
             </Card>
+
+            {/* Consejos rápidos */}
+            <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-5">
+              <h2 className="text-lg font-bold text-gray-900 mb-3">Consejos rápidos</h2>
+              <div className="space-y-3">
+                {getTips(adults, cocktails.size).map((tip) => (
+                  <div key={tip.title} className="flex gap-3">
+                    <span className="text-2xl leading-none shrink-0">{tip.emoji}</span>
+                    <div>
+                      <p className="font-semibold text-sm text-gray-900">{tip.title}</p>
+                      <p className="text-sm text-gray-500 leading-snug mt-0.5">{tip.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* Estimador de costo */}
             <Card title="Estimador de costo 💰">
