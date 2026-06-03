@@ -18,7 +18,7 @@ export default function NavTabs() {
             : 'text-amber-100 hover:bg-amber-400/40'
         }`}
       >
-        🍺 Calculadora
+        Calculadora
       </Link>
       <Link
         href="/cocteles"

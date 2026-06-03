@@ -1,4 +1,4 @@
-import { CocktailKey, CalculationResult, EventType, GuestType, Prices } from './types'
+import { CocktailKey, SnackKey, CalculationResult, EventType, GuestType, Prices } from './types'
 
 const DRINK_RATES: Record<GuestType, number> = {
   tranquilos: 0.55,
@@ -24,7 +24,7 @@ function empty(): CalculationResult {
     refresco: 0, squirt: 0, jugoNaranja: 0, clamato: 0,
     sangrita: 0, aguaFresca: 0, hielo: 0, limones: 0,
     sal: 0, chilePiquin: 0, tajin: 0, pepino: 0, vasos: 0,
-    cacahuates: 0, papas: 0,
+    cacahuates: 0, papas: 0, chicharron: 0, totopos: 0, frituras: 0,
   }
 }
 
@@ -35,7 +35,8 @@ export function calculate(
   eventType: EventType,
   hours: number,
   guestType: GuestType,
-  cocktails: Set<CocktailKey>
+  cocktails: Set<CocktailKey>,
+  snacks: Set<SnackKey> = new Set()
 ): CalculationResult {
   const adults = hombres + mujeres
   const totalPeople = adults + ninos
@@ -156,16 +157,20 @@ export function calculate(
   // Vasos desechables
   const vasos = Math.ceil((totalPeople * 2.5) / 50)
 
-  // Botanas (escalan con horas)
+  // Botanas opcionales (escalan con personas y horas)
   const snackRounds = Math.ceil(hours / 2)
-  const cacahuates = Math.ceil(totalPeople / 5) * snackRounds
-  const papas = Math.ceil(totalPeople / 4) * snackRounds
+  const snackQty = (perPeople: number) => Math.ceil(totalPeople / perPeople) * snackRounds
+  const cacahuates = snacks.has('cacahuates') ? snackQty(5) : 0
+  const papas      = snacks.has('papas')      ? snackQty(4) : 0
+  const chicharron = snacks.has('chicharron') ? snackQty(6) : 0
+  const totopos    = snacks.has('totopos')    ? snackQty(5) : 0
+  const frituras   = snacks.has('frituras')   ? snackQty(4) : 0
 
   return {
     cerveza, tequila, mezcal, ron, whisky,
     refresco, squirt, jugoNaranja, clamato, sangrita,
     aguaFresca, hielo, limones, sal, chilePiquin, tajin,
-    pepino, vasos, cacahuates, papas,
+    pepino, vasos, cacahuates, papas, chicharron, totopos, frituras,
   }
 }
 
@@ -186,7 +191,10 @@ export function calculateTotal(result: CalculationResult, prices: Prices): numbe
     result.vasos * prices.vasos +
     result.tajin * prices.tajin +
     result.cacahuates * prices.cacahuates +
-    result.papas * prices.papas
+    result.papas * prices.papas +
+    result.chicharron * prices.chicharron +
+    result.totopos * prices.totopos +
+    result.frituras * prices.frituras
   )
 }
 
@@ -256,10 +264,16 @@ export function formatWhatsApp(
   if (result.pepino > 0) lines.push(`🥒 Pepino: ${pl(result.pepino, 'pieza')}`)
   lines.push(`🥤 Vasos: ${pl(result.vasos, 'paquete')} x50`)
 
-  lines.push('')
-  lines.push('*🥜 BOTANAS*')
-  lines.push(`🥜 Cacahuates: ${pl(result.cacahuates, 'bolsa')} 200g`)
-  lines.push(`🍟 Papas fritas: ${pl(result.papas, 'bolsa')}`)
+  const hasSnacks = result.cacahuates > 0 || result.papas > 0 || result.chicharron > 0 || result.totopos > 0 || result.frituras > 0
+  if (hasSnacks) {
+    lines.push('')
+    lines.push('*🥜 BOTANAS*')
+    if (result.cacahuates > 0) lines.push(`🥜 Cacahuates: ${pl(result.cacahuates, 'bolsa')} 200g`)
+    if (result.papas > 0)      lines.push(`🍟 Papas fritas: ${pl(result.papas, 'bolsa')}`)
+    if (result.chicharron > 0) lines.push(`🐷 Chicharrón: ${pl(result.chicharron, 'bolsa')}`)
+    if (result.totopos > 0)    lines.push(`🌮 Totopos + salsa: ${pl(result.totopos, 'bolsa')}`)
+    if (result.frituras > 0)   lines.push(`🫙 Frituras variadas: ${pl(result.frituras, 'bolsa')}`)
+  }
 
   if (total > 0) {
     lines.push('')

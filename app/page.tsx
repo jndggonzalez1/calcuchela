@@ -1,9 +1,9 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { EventType, GuestType, CocktailKey, Prices, CalculationResult } from '@/lib/types'
+import { EventType, GuestType, CocktailKey, SnackKey, Prices, CalculationResult } from '@/lib/types'
 import { calculate, calculateTotal, formatWhatsApp } from '@/lib/calculator'
-import { COCKTAILS, EVENT_OPTIONS, GUEST_OPTIONS, DEFAULT_PRICES } from '@/lib/constants'
+import { COCKTAILS, EVENT_OPTIONS, GUEST_OPTIONS, DEFAULT_PRICES, SNACK_OPTIONS } from '@/lib/constants'
 import NavTabs from '@/components/NavTabs'
 
 // ─── Sub-components ──────────────────────────────────────────────
@@ -120,6 +120,9 @@ function PriceEditor({
     { key: 'tajin' as keyof Prices, label: '🫙 Tajín', unit: '/frasco', qty: result.tajin },
     { key: 'cacahuates' as keyof Prices, label: '🥜 Cacahuates', unit: '/bolsa', qty: result.cacahuates },
     { key: 'papas' as keyof Prices, label: '🍟 Papas', unit: '/bolsa', qty: result.papas },
+    { key: 'chicharron' as keyof Prices, label: '🐷 Chicharrón', unit: '/bolsa', qty: result.chicharron },
+    { key: 'totopos' as keyof Prices, label: '🌮 Totopos', unit: '/bolsa', qty: result.totopos },
+    { key: 'frituras' as keyof Prices, label: '🫙 Frituras', unit: '/bolsa', qty: result.frituras },
   ]
   const rows = allRows.filter(r => r.qty > 0)
 
@@ -155,6 +158,8 @@ export default function Home() {
   const [hours, setHours] = useState(4)
   const [guestType, setGuestType] = useState<GuestType>('normal')
   const [cocktails, setCocktails] = useState<Set<CocktailKey>>(new Set())
+  const [snacks, setSnacks] = useState<Set<SnackKey>>(new Set())
+  const [showSnacks, setShowSnacks] = useState(false)
   const [prices, setPrices] = useState<Prices>(DEFAULT_PRICES)
   const [showPrices, setShowPrices] = useState(false)
 
@@ -170,9 +175,17 @@ export default function Home() {
     })
   }
 
+  const toggleSnack = (key: SnackKey) => {
+    setSnacks(prev => {
+      const next = new Set(prev)
+      next.has(key) ? next.delete(key) : next.add(key)
+      return next
+    })
+  }
+
   const result = useMemo(
-    () => calculate(hombres, mujeres, ninos, eventType, hours, guestType, cocktails),
-    [hombres, mujeres, ninos, eventType, hours, guestType, cocktails]
+    () => calculate(hombres, mujeres, ninos, eventType, hours, guestType, cocktails, snacks),
+    [hombres, mujeres, ninos, eventType, hours, guestType, cocktails, snacks]
   )
 
   const total = useMemo(() => calculateTotal(result, prices), [result, prices])
@@ -199,7 +212,7 @@ export default function Home() {
       {/* Header */}
       <header className="bg-gradient-to-b from-amber-500 to-amber-600 px-5 pt-10 pb-12 text-white">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl font-black tracking-tight">🍺 Calcuchela</h1>
+          <h1 className="text-4xl font-black tracking-tight">Calcuchela</h1>
           <p className="mt-2 text-amber-100 text-lg font-medium">
             Nunca te quedes sin chela en la fiesta 🍺
           </p>
@@ -313,6 +326,50 @@ export default function Home() {
           </div>
         </Card>
 
+        {/* Botanas opcionales */}
+        <Card className="no-print">
+          <button
+            onClick={() => setShowSnacks(!showSnacks)}
+            className="w-full flex items-center justify-between"
+          >
+            <div className="text-left">
+              <p className="text-base font-bold text-gray-900">¿Le pones botana? 🥜</p>
+              <p className="text-sm text-gray-500 mt-0.5">
+                {snacks.size > 0 ? `${snacks.size} botana${snacks.size > 1 ? 's' : ''} seleccionada${snacks.size > 1 ? 's' : ''}` : 'Opcional — agrégala a tu lista'}
+              </p>
+            </div>
+            <span className="text-amber-500 text-xl font-bold ml-4">
+              {showSnacks ? '▲' : '▼'}
+            </span>
+          </button>
+
+          {showSnacks && (
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {SNACK_OPTIONS.map(s => {
+                const selected = snacks.has(s.key)
+                return (
+                  <button
+                    key={s.key}
+                    onClick={() => toggleSnack(s.key)}
+                    className={`rounded-xl p-3 text-left transition-all border-2 ${
+                      selected
+                        ? 'border-amber-500 bg-amber-50 shadow-sm'
+                        : 'border-transparent bg-gray-50 hover:bg-amber-50'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between mb-1">
+                      <span className="text-2xl leading-none">{s.emoji}</span>
+                      {selected && <span className="text-amber-500 font-bold text-base leading-none">✓</span>}
+                    </div>
+                    <p className="font-semibold text-sm text-gray-900 mt-1">{s.label}</p>
+                    <p className="text-xs text-gray-500 mt-0.5">{s.desc}</p>
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </Card>
+
         {/* Results */}
         {!hasResult ? (
           <div className="bg-white rounded-2xl border border-amber-100 p-10 text-center">
@@ -391,13 +448,16 @@ export default function Home() {
                 value={pl(result.vasos, 'paquete') + ' x50'}
               />
 
-              <SectionLabel>Botanas 🥜</SectionLabel>
-              <Row
-                emoji="🥜"
-                label="Cacahuates"
-                value={pl(result.cacahuates, 'bolsa') + ' 200g'}
-              />
-              <Row emoji="🍟" label="Papas fritas" value={pl(result.papas, 'bolsa')} />
+              {(result.cacahuates > 0 || result.papas > 0 || result.chicharron > 0 || result.totopos > 0 || result.frituras > 0) && (
+                <>
+                  <SectionLabel>Botanas 🥜</SectionLabel>
+                  {result.cacahuates > 0 && <Row emoji="🥜" label="Cacahuates" value={pl(result.cacahuates, 'bolsa') + ' 200g'} />}
+                  {result.papas > 0 && <Row emoji="🍟" label="Papas fritas" value={pl(result.papas, 'bolsa')} />}
+                  {result.chicharron > 0 && <Row emoji="🐷" label="Chicharrón" value={pl(result.chicharron, 'bolsa')} />}
+                  {result.totopos > 0 && <Row emoji="🌮" label="Totopos + salsa" value={pl(result.totopos, 'bolsa')} />}
+                  {result.frituras > 0 && <Row emoji="🫙" label="Frituras variadas" value={pl(result.frituras, 'bolsa')} />}
+                </>
+              )}
             </Card>
 
             {/* Estimador de costo */}

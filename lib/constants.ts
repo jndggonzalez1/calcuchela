@@ -1,4 +1,4 @@
-import { CocktailInfo, EventType, GuestType, Prices } from './types'
+import { CocktailInfo, EventType, GuestType, Prices, SnackKey } from './types'
 
 export const DEFAULT_PRICES: Prices = {
   cerveza: 22,
@@ -17,7 +17,18 @@ export const DEFAULT_PRICES: Prices = {
   cacahuates: 25,
   papas: 20,
   tajin: 30,
+  chicharron: 35,
+  totopos: 30,
+  frituras: 25,
 }
+
+export const SNACK_OPTIONS: { key: SnackKey; emoji: string; label: string; desc: string }[] = [
+  { key: 'cacahuates', emoji: '🥜', label: 'Cacahuates', desc: 'Bolsas 200g' },
+  { key: 'papas', emoji: '🍟', label: 'Papas fritas', desc: 'Sabritas / Ruffles' },
+  { key: 'chicharron', emoji: '🐷', label: 'Chicharrón', desc: 'Bolsas botana' },
+  { key: 'totopos', emoji: '🌮', label: 'Totopos + salsa', desc: 'Con bote de salsa' },
+  { key: 'frituras', emoji: '🫙', label: 'Frituras variadas', desc: 'Doritos, Cheetos…' },
+]
 
 export const COCKTAILS: CocktailInfo[] = [
   {

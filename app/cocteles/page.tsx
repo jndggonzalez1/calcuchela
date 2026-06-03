@@ -27,7 +27,7 @@ export default function CoctelesPage() {
     <div className="min-h-screen bg-amber-50">
       <header className="bg-gradient-to-b from-amber-500 to-amber-600 px-5 pt-10 pb-12 text-white">
         <div className="max-w-2xl mx-auto">
-          <h1 className="text-4xl font-black tracking-tight">🍺 Calcuchela</h1>
+          <h1 className="text-4xl font-black tracking-tight">Calcuchela</h1>
           <p className="mt-2 text-amber-100 text-lg font-medium">
             Nunca te quedes sin chela en la fiesta 🍺
           </p>

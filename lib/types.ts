@@ -1,5 +1,6 @@
 export type EventType = 'carne-asada' | 'cumpleanos' | 'xv-boda' | 'posada' | 'casual'
 export type GuestType = 'tranquilos' | 'normal' | 'lemueven'
+export type SnackKey = 'cacahuates' | 'papas' | 'chicharron' | 'totopos' | 'frituras'
 export type CocktailKey =
   | 'michelada'
   | 'paloma'
@@ -25,7 +26,7 @@ export interface RecipePortion {
 
 export interface CocktailRecipe {
   slug: string
-  key: CocktailKey
+  key: string
   emoji: string
   name: string
   base: string
@@ -60,6 +61,9 @@ export interface CalculationResult {
   vasos: number
   cacahuates: number
   papas: number
+  chicharron: number
+  totopos: number
+  frituras: number
 }
 
 export interface Prices {
@@ -79,4 +83,7 @@ export interface Prices {
   cacahuates: number
   papas: number
   tajin: number
+  chicharron: number
+  totopos: number
+  frituras: number
 }
