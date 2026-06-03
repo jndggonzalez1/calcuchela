@@ -4,7 +4,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'Acerca de Calcuchela — La historia de Yeyito y las chelas',
   description:
-    'La historia detrás de Calcuchela: cómo una carne asada mal calculada en Monterrey inspiró la calculadora de bebidas más útil de México.',
+    'La historia detrás de Calcuchela: cómo una fiesta mal calculada inspiró la calculadora de bebidas más útil de México.',
   alternates: { canonical: 'https://calcuchela.com/acerca' },
 }
 
@@ -27,19 +27,23 @@ export default function Acerca() {
           <p className="text-4xl">🍺</p>
 
           <p>
-            Todo empezó una tarde de sábado en Monterrey. <strong className="text-gray-900">Yeyito</strong> — así le dicen sus cuates — organizó una carne asada de cumpleaños para 30 personas en su casa. Compró lo que le pareció suficiente: dos sixpacks por aquí, unos refrescos por allá, hielo de una sola bolsa y cacahuates de buena fe.
+            <strong className="text-gray-900">Yeyito</strong> — así le dicen sus cuates — es el tipo de persona que siempre termina organizando la fiesta. No porque sea el más organizado, sino porque es el que más ganas le echa.
           </p>
 
           <p>
-            A las 8 de la noche, con la mitad de la carne todavía en el asador y los invitados en plena forma, pasó lo inevitable: <strong className="text-gray-900">se acabaron las chelas.</strong>
+            Un sábado, con 30 invitados confirmados y la confianza de quien ya ha armado varias, fue al súper y compró "lo suficiente": un par de sixpacks, unos refrescos, una bolsa de hielo y cacahuates de buena fe.
           </p>
 
           <p>
-            Hubo que hacer una corrida de emergencia a la tienda de la esquina. No una vez — dos. El segundo viaje fue de madrugada, con el primo Beto de copiloto y la vergüenza tatuada en la frente.
+            A las 8 de la noche, con la fiesta en su mejor momento, pasó lo inevitable: <strong className="text-gray-900">se acabaron las chelas.</strong>
           </p>
 
           <p>
-            Al día siguiente, con la resaca todavía presente, Yeyito se hizo la pregunta que todo organizador de fiesta mexicano se ha hecho al menos una vez en la vida:
+            Hubo que hacer una corrida de emergencia. No una — dos. El segundo viaje fue de madrugada, con el primo Beto de copiloto y la vergüenza tatuada en la frente.
+          </p>
+
+          <p>
+            Al día siguiente, con la resaca todavía presente, Yeyito se hizo la pregunta que todo organizador de fiesta mexicano se ha hecho al menos una vez:
           </p>
 
           <p className="text-lg font-bold text-amber-700 text-center py-2">
