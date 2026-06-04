@@ -6,6 +6,9 @@ export const DEFAULT_PRICES: Prices = {
   mezcal: 400,
   ron: 280,
   whisky: 380,
+  aperol: 320,
+  prosecco: 180,
+  aguaMineral: 20,
   refresco: 35,
   squirt: 35,
   clamato: 45,
@@ -86,6 +89,20 @@ export const COCKTAILS: CocktailInfo[] = [
     name: 'Vampiro',
     base: 'Tequila',
     ingredients: 'Squirt/toronja, sangrita, Tajín, limones, sal',
+  },
+  {
+    key: 'aperol-spritz',
+    emoji: '🍊',
+    name: 'Aperol Spritz',
+    base: 'Aperol',
+    ingredients: 'Prosecco/cava, agua mineral, naranja',
+  },
+  {
+    key: 'hugo',
+    emoji: '🌿',
+    name: 'Hugo',
+    base: 'Prosecco',
+    ingredients: 'Agua mineral, menta, limones',
   },
 ]
 

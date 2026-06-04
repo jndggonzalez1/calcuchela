@@ -10,6 +10,8 @@ export type CocktailKey =
   | 'clamato-preparado'
   | 'whisky-coke'
   | 'vampiro'
+  | 'aperol-spritz'
+  | 'hugo'
 
 export interface CocktailInfo {
   key: CocktailKey
@@ -46,6 +48,9 @@ export interface CalculationResult {
   mezcal: number
   ron: number
   whisky: number
+  aperol: number
+  prosecco: number
+  aguaMineral: number
   refresco: number
   squirt: number
   jugoNaranja: number
@@ -72,6 +77,9 @@ export interface Prices {
   mezcal: number
   ron: number
   whisky: number
+  aperol: number
+  prosecco: number
+  aguaMineral: number
   refresco: number
   squirt: number
   clamato: number

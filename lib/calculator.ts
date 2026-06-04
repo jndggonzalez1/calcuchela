@@ -13,6 +13,7 @@ function empty(): CalculationResult {
   return {
     cerveza: { units: 0, sixPacks: 0, cajas: 0 },
     tequila: 0, mezcal: 0, ron: 0, whisky: 0,
+    aperol: 0, prosecco: 0, aguaMineral: 0,
     refresco: 0, squirt: 0, jugoNaranja: 0, clamato: 0,
     sangrita: 0, aguaFresca: 0, hielo: 0, limones: 0,
     sal: 0, chilePiquin: 0, tajin: 0, pepino: 0, vasos: 0,
@@ -74,6 +75,22 @@ export function calculate(
     ? Math.ceil(spiritServings / SHOTS_PER_BOTTLE)
     : 0
 
+  // Aperol (60ml/serving → 12 per 750ml bottle)
+  const aperol = cocktails.has('aperol-spritz')
+    ? Math.ceil(spiritServings / 12)
+    : 0
+  // Prosecco: Aperol Spritz uses 90ml/serving (8/bottle), Hugo uses 150ml/serving (5/bottle)
+  const prosecco =
+    (cocktails.has('aperol-spritz') ? Math.ceil(spiritServings / 8) : 0) +
+    (cocktails.has('hugo') ? Math.ceil(spiritServings / 5) : 0)
+  // Agua mineral (30ml para spritz, 50ml para hugo) → botellas 500ml
+  const aguaMineral = cocktails.has('aperol-spritz') || cocktails.has('hugo')
+    ? Math.max(1, Math.ceil(
+        (cocktails.has('aperol-spritz') ? spiritServings * 0.03 : 0) +
+        (cocktails.has('hugo') ? spiritServings * 0.05 : 0)
+      ))
+    : 0
+
   // Cerveza packaging
   const cerveza = {
     units: beerUnits,
@@ -126,6 +143,7 @@ export function calculate(
   if (cocktails.has('cuba-libre')) limones += Math.ceil(spiritServings * 0.3)
   if (hasClamatoPrep) limones += clamatoServings
   if (cocktails.has('vampiro')) limones += Math.ceil(spiritServings * 0.5)
+  if (cocktails.has('hugo')) limones += Math.ceil(spiritServings * 0.5)
 
   // Sal
   const needsSal = (['michelada', 'paloma', 'mezcalina', 'clamato-preparado', 'vampiro'] as CocktailKey[])
@@ -160,6 +178,7 @@ export function calculate(
 
   return {
     cerveza, tequila, mezcal, ron, whisky,
+    aperol, prosecco, aguaMineral,
     refresco, squirt, jugoNaranja, clamato, sangrita,
     aguaFresca, hielo, limones, sal, chilePiquin, tajin,
     pepino, vasos, cacahuates, papas, chicharron, totopos, frituras,
@@ -173,6 +192,9 @@ export function calculateTotal(result: CalculationResult, prices: Prices): numbe
     result.mezcal * prices.mezcal +
     result.ron * prices.ron +
     result.whisky * prices.whisky +
+    result.aperol * prices.aperol +
+    result.prosecco * prices.prosecco +
+    result.aguaMineral * prices.aguaMineral +
     result.refresco * prices.refresco +
     result.squirt * prices.squirt +
     result.jugoNaranja * prices.jugoNaranja +
@@ -232,6 +254,9 @@ export function formatWhatsApp(
   if (result.mezcal > 0) lines.push(`🧉 Mezcal: ${pl(result.mezcal, 'botella')} 750ml`)
   if (result.ron > 0) lines.push(`🍹 Ron: ${pl(result.ron, 'botella')} 750ml`)
   if (result.whisky > 0) lines.push(`🥃 Whisky: ${pl(result.whisky, 'botella')} 750ml`)
+  if (result.aperol > 0) lines.push(`🍊 Aperol: ${pl(result.aperol, 'botella')} 750ml`)
+  if (result.prosecco > 0) lines.push(`🥂 Prosecco/cava: ${pl(result.prosecco, 'botella')} 750ml`)
+  if (result.aguaMineral > 0) lines.push(`💧 Agua mineral: ${pl(result.aguaMineral, 'botella')} 500ml`)
   lines.push(`🧃 Refresco: ${pl(result.refresco, 'botella')} 2L`)
   if (result.squirt > 0) lines.push(`🧃 Squirt/toronja: ${pl(result.squirt, 'botella')} 2L`)
   if (result.jugoNaranja > 0) lines.push(`🍊 Jugo de naranja: ${result.jugoNaranja}L`)
