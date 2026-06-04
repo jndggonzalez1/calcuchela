@@ -6,7 +6,7 @@ const DRINK_RATES: Record<GuestType, number> = {
   lemueven: 1.5,
 }
 
-const TEQUILA_COCKTAILS: CocktailKey[] = ['paloma', 'charro-negro', 'vampiro']
+const TEQUILA_COCKTAILS: CocktailKey[] = ['paloma', 'charro-negro', 'vampiro', 'margarita']
 const SHOTS_PER_BOTTLE = 16 // 750ml ÷ 45ml
 
 function empty(): CalculationResult {
@@ -14,6 +14,7 @@ function empty(): CalculationResult {
     cerveza: { units: 0, sixPacks: 0, cajas: 0 },
     tequila: 0, mezcal: 0, ron: 0, whisky: 0,
     aperol: 0, prosecco: 0, sanGerman: 0, aguaMineral: 0, menta: 0,
+    gin: 0, aguaTonica: 0, controy: 0,
     refresco: 0, squirt: 0, jugoNaranja: 0, clamato: 0,
     sangrita: 0, aguaFresca: 0, hielo: 0, limones: 0,
     sal: 0, chilePiquin: 0, tajin: 0, pepino: 0, vasos: 0,
@@ -99,6 +100,19 @@ export function calculate(
     ? Math.max(1, Math.ceil(spiritServings / 10))
     : 0
 
+  // Gin (750ml, 15 tragos/botella)
+  const gin = cocktails.has('gin-tonica')
+    ? Math.ceil(spiritServings / 15)
+    : 0
+  // Agua tónica: 1 lata 355ml por serving → 6-packs
+  const aguaTonica = cocktails.has('gin-tonica')
+    ? Math.ceil(spiritServings / 6)
+    : 0
+  // Controy / Triple sec: 750ml rinde 25 servings de margarita
+  const controy = cocktails.has('margarita')
+    ? Math.max(1, Math.ceil(spiritServings / 25))
+    : 0
+
   // Cerveza packaging
   const cerveza = {
     units: beerUnits,
@@ -152,9 +166,11 @@ export function calculate(
   if (hasClamatoPrep) limones += clamatoServings
   if (cocktails.has('vampiro')) limones += Math.ceil(spiritServings * 0.5)
   if (cocktails.has('hugo')) limones += Math.ceil(spiritServings * 0.5)
+  if (cocktails.has('gin-tonica')) limones += Math.ceil(spiritServings * 0.5)
+  if (cocktails.has('margarita')) limones += Math.ceil(spiritServings * 2.5)
 
   // Sal
-  const needsSal = (['michelada', 'paloma', 'mezcalina', 'clamato-preparado', 'vampiro'] as CocktailKey[])
+  const needsSal = (['michelada', 'paloma', 'mezcalina', 'clamato-preparado', 'vampiro', 'margarita'] as CocktailKey[])
     .some(c => cocktails.has(c))
   const sal = needsSal
     ? Math.max(2, Math.ceil(adults / 15))
@@ -169,8 +185,10 @@ export function calculate(
     .filter(c => cocktails.has(c)).length
   const tajin = tajinCount > 0 ? Math.max(1, Math.ceil(tajinCount / 2) + (tajinCount > 1 ? 1 : 0)) : 0
 
-  // Pepino (Clamato preparado)
-  const pepino = hasClamatoPrep ? Math.max(1, Math.ceil(clamatoServings / 8)) : 0
+  // Pepino (Clamato preparado + Gin Tónica como garnish)
+  const pepino =
+    (hasClamatoPrep ? Math.max(1, Math.ceil(clamatoServings / 8)) : 0) +
+    (cocktails.has('gin-tonica') ? Math.max(1, Math.ceil(spiritServings / 10)) : 0)
 
   // Vasos desechables
   const vasos = Math.ceil((totalPeople * 2.5) / 50)
@@ -187,6 +205,7 @@ export function calculate(
   return {
     cerveza, tequila, mezcal, ron, whisky,
     aperol, prosecco, sanGerman, aguaMineral, menta,
+    gin, aguaTonica, controy,
     refresco, squirt, jugoNaranja, clamato, sangrita,
     aguaFresca, hielo, limones, sal, chilePiquin, tajin,
     pepino, vasos, cacahuates, papas, chicharron, totopos, frituras,
@@ -205,6 +224,9 @@ export function calculateTotal(result: CalculationResult, prices: Prices): numbe
     result.sanGerman * prices.sanGerman +
     result.aguaMineral * prices.aguaMineral +
     result.menta * prices.menta +
+    result.gin * prices.gin +
+    result.aguaTonica * prices.aguaTonica +
+    result.controy * prices.controy +
     result.refresco * prices.refresco +
     result.squirt * prices.squirt +
     result.jugoNaranja * prices.jugoNaranja +
@@ -264,6 +286,9 @@ export function formatWhatsApp(
   if (result.mezcal > 0) lines.push(`🧉 Mezcal: ${pl(result.mezcal, 'botella')} 750ml`)
   if (result.ron > 0) lines.push(`🍹 Ron: ${pl(result.ron, 'botella')} 750ml`)
   if (result.whisky > 0) lines.push(`🥃 Whisky: ${pl(result.whisky, 'botella')} 750ml`)
+  if (result.gin > 0) lines.push(`🍸 Gin: ${pl(result.gin, 'botella')} 750ml`)
+  if (result.aguaTonica > 0) lines.push(`🫧 Agua tónica: ${result.aguaTonica} 6-pack${result.aguaTonica > 1 ? 's' : ''} latas 355ml`)
+  if (result.controy > 0) lines.push(`🍊 Controy/Triple sec: ${pl(result.controy, 'botella')} 750ml`)
   if (result.aperol > 0) lines.push(`🍊 Aperol: ${pl(result.aperol, 'botella')} 750ml`)
   if (result.prosecco > 0) lines.push(`🥂 Prosecco/cava: ${pl(result.prosecco, 'botella')} 750ml`)
   if (result.sanGerman > 0) lines.push(`🌸 St-Germain: ${pl(result.sanGerman, 'botella')} 750ml`)

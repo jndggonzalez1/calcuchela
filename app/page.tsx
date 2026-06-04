@@ -160,6 +160,9 @@ function PriceEditor({
     { key: 'mezcal' as keyof Prices, label: '🧉 Mezcal', unit: '/botella', qty: result.mezcal },
     { key: 'ron' as keyof Prices, label: '🍹 Ron', unit: '/botella', qty: result.ron },
     { key: 'whisky' as keyof Prices, label: '🥃 Whisky', unit: '/botella', qty: result.whisky },
+    { key: 'gin' as keyof Prices, label: '🍸 Gin', unit: '/botella', qty: result.gin },
+    { key: 'aguaTonica' as keyof Prices, label: '🫧 Agua tónica', unit: '/6-pack', qty: result.aguaTonica },
+    { key: 'controy' as keyof Prices, label: '🍊 Controy/Triple sec', unit: '/botella', qty: result.controy },
     { key: 'aperol' as keyof Prices, label: '🍊 Aperol', unit: '/botella', qty: result.aperol },
     { key: 'prosecco' as keyof Prices, label: '🥂 Prosecco/cava', unit: '/botella', qty: result.prosecco },
     { key: 'sanGerman' as keyof Prices, label: '🌸 St-Germain', unit: '/botella', qty: result.sanGerman },
@@ -492,6 +495,9 @@ export default function Home() {
                     {result.mezcal > 0 && <Row emoji="🧉" label="Mezcal" value={pl(result.mezcal, 'botella') + ' 750ml'} />}
                     {result.ron > 0 && <Row emoji="🍹" label="Ron" value={pl(result.ron, 'botella') + ' 750ml'} />}
                     {result.whisky > 0 && <Row emoji="🥃" label="Whisky" value={pl(result.whisky, 'botella') + ' 750ml'} />}
+                    {result.gin > 0 && <Row emoji="🍸" label="Gin" value={pl(result.gin, 'botella') + ' 750ml'} />}
+                    {result.aguaTonica > 0 && <Row emoji="🫧" label="Agua tónica" value={`${result.aguaTonica} 6-pack${result.aguaTonica > 1 ? 's' : ''} latas 355ml`} />}
+                    {result.controy > 0 && <Row emoji="🍊" label="Controy / Triple sec" value={pl(result.controy, 'botella') + ' 750ml'} />}
                     {result.aperol > 0 && <Row emoji="🍊" label="Aperol" value={pl(result.aperol, 'botella') + ' 750ml'} />}
                     {result.prosecco > 0 && <Row emoji="🥂" label="Prosecco / cava" value={pl(result.prosecco, 'botella') + ' 750ml'} />}
                     {result.sanGerman > 0 && <Row emoji="🌸" label="St-Germain" value={pl(result.sanGerman, 'botella') + ' 750ml'} />}

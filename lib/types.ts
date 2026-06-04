@@ -12,6 +12,8 @@ export type CocktailKey =
   | 'vampiro'
   | 'aperol-spritz'
   | 'hugo'
+  | 'gin-tonica'
+  | 'margarita'
 
 export interface CocktailInfo {
   key: CocktailKey
@@ -53,6 +55,9 @@ export interface CalculationResult {
   sanGerman: number
   aguaMineral: number
   menta: number
+  gin: number
+  aguaTonica: number
+  controy: number
   refresco: number
   squirt: number
   jugoNaranja: number
@@ -84,6 +89,9 @@ export interface Prices {
   sanGerman: number
   aguaMineral: number
   menta: number
+  gin: number
+  aguaTonica: number
+  controy: number
   refresco: number
   squirt: number
   clamato: number
