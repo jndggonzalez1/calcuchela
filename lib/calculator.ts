@@ -194,7 +194,7 @@ export function formatWhatsApp(
   hombres: number,
   mujeres: number,
   ninos: number,
-  eventType: EventType,
+  eventLabel: string,
   hours: number,
   guestType: GuestType,
   result: CalculationResult,
@@ -203,13 +203,6 @@ export function formatWhatsApp(
   const adults = hombres + mujeres
   const totalPeople = adults + ninos
 
-  const eventLabels: Record<EventType, string> = {
-    'carne-asada': 'Carne asada',
-    cumpleanos: 'Cumpleaños',
-    'xv-boda': 'XV / Boda',
-    posada: 'Posada',
-    casual: 'Reunión casual',
-  }
   const guestLabels: Record<GuestType, string> = {
     tranquilos: 'Tranquilos 😇',
     normal: 'Normal 🍺',
@@ -222,7 +215,7 @@ export function formatWhatsApp(
   lines.push('🍺 *Lista Calcuchela*')
   lines.push('')
   lines.push(
-    `📋 ${eventLabels[eventType]} · ${hours}h · ${adults} adulto${adults !== 1 ? 's' : ''}${ninos > 0 ? ` + ${ninos} niño${ninos !== 1 ? 's' : ''}` : ''} · ${guestLabels[guestType]}`
+    `📋 ${eventLabel} · ${hours}h · ${adults} adulto${adults !== 1 ? 's' : ''}${ninos > 0 ? ` + ${ninos} niño${ninos !== 1 ? 's' : ''}` : ''} · ${guestLabels[guestType]}`
   )
   lines.push('')
   lines.push('*🍹 BEBIDAS*')

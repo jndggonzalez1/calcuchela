@@ -240,6 +240,8 @@ export default function Home() {
   const [showSnacks, setShowSnacks] = useState(false)
   const [prices, setPrices] = useState<Prices>(DEFAULT_PRICES)
   const [showPrices, setShowPrices] = useState(false)
+  const [isOtroEvent, setIsOtroEvent] = useState(false)
+  const [customEventName, setCustomEventName] = useState('')
 
   useEffect(() => {
     const saved = loadState()
@@ -292,9 +294,20 @@ export default function Home() {
 
   const total = useMemo(() => calculateTotal(result, prices), [result, prices])
 
+  const eventLabelMap: Record<EventType, string> = {
+    'carne-asada': 'Carne asada',
+    cumpleanos: 'Cumpleaños',
+    'xv-boda': 'XV / Boda',
+    posada: 'Posada',
+    casual: 'Reunión casual',
+  }
+  const effectiveEventLabel = isOtroEvent
+    ? (customEventName.trim() || 'Fiesta')
+    : eventLabelMap[eventType]
+
   const handleShare = () => {
     const text = formatWhatsApp(
-      hombres, mujeres, ninos, eventType, hours, guestType, result, total
+      hombres, mujeres, ninos, effectiveEventLabel, hours, guestType, result, total
     )
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank')
   }
@@ -341,24 +354,6 @@ export default function Home() {
 
         {/* Tu evento */}
         <Card title="Tu evento 🎉" className="no-print">
-          <p className="text-sm font-semibold text-gray-500 mb-2">Tipo de evento</p>
-          <div className="grid grid-cols-3 gap-2 mb-5">
-            {EVENT_OPTIONS.map(opt => (
-              <button
-                key={opt.value}
-                onClick={() => setEventType(opt.value)}
-                className={`rounded-xl py-2.5 px-1 text-sm font-medium transition-all text-center ${
-                  eventType === opt.value
-                    ? 'bg-amber-500 text-white shadow-sm'
-                    : 'bg-amber-50 text-gray-700 border border-amber-200 hover:border-amber-400'
-                }`}
-              >
-                <span className="block text-xl mb-0.5">{opt.emoji}</span>
-                {opt.label}
-              </button>
-            ))}
-          </div>
-
           <p className="text-sm font-semibold text-gray-500 mb-2">¿Cuántas horas dura?</p>
           <div className="flex items-center gap-4 mb-5">
             <input
@@ -633,7 +628,44 @@ export default function Home() {
 
             {/* Compartir */}
             <Card title="Compartir 📤" className="no-print">
-              <div className="grid grid-cols-2 gap-3">
+              <p className="text-sm font-semibold text-gray-500 mb-2">Personaliza tu mensaje según el tipo de evento</p>
+              <div className="grid grid-cols-3 gap-2 mb-2">
+                {EVENT_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => { setEventType(opt.value); setIsOtroEvent(false) }}
+                    className={`rounded-xl py-2.5 px-1 text-sm font-medium transition-all text-center ${
+                      !isOtroEvent && eventType === opt.value
+                        ? 'bg-amber-500 text-white shadow-sm'
+                        : 'bg-amber-50 text-gray-700 border border-amber-200 hover:border-amber-400'
+                    }`}
+                  >
+                    <span className="block text-xl mb-0.5">{opt.emoji}</span>
+                    {opt.label}
+                  </button>
+                ))}
+                <button
+                  onClick={() => setIsOtroEvent(true)}
+                  className={`rounded-xl py-2.5 px-1 text-sm font-medium transition-all text-center ${
+                    isOtroEvent
+                      ? 'bg-amber-500 text-white shadow-sm'
+                      : 'bg-amber-50 text-gray-700 border border-amber-200 hover:border-amber-400'
+                  }`}
+                >
+                  <span className="block text-xl mb-0.5">✏️</span>
+                  Otro
+                </button>
+              </div>
+              {isOtroEvent && (
+                <input
+                  type="text"
+                  placeholder="¿Qué tipo de evento?"
+                  value={customEventName}
+                  onChange={e => setCustomEventName(e.target.value)}
+                  className="w-full border border-amber-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-amber-400 mb-4"
+                />
+              )}
+              <div className="grid grid-cols-2 gap-3 mt-3">
                 <button
                   onClick={handleShare}
                   className="bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-3.5 px-4 rounded-xl transition-colors flex items-center justify-center gap-2"
