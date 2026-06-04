@@ -74,7 +74,7 @@ function Card({
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="text-xs font-bold text-amber-700 uppercase tracking-widest mb-2 mt-5 first:mt-0">
+    <p className="text-xs font-bold text-amber-700 uppercase tracking-widest mb-1 mt-3 first:mt-0 col-span-2">
       {children}
     </p>
   )
@@ -82,14 +82,9 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 
 function Row({ emoji, label, value }: { emoji: string; label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between py-1.5 border-b border-gray-50 last:border-0">
-      <span className="text-gray-700 text-sm flex items-center gap-2">
-        <span className="w-5 text-center">{emoji}</span>
-        {label}
-      </span>
-      <span className="text-sm font-semibold text-gray-900 ml-4 text-right shrink-0">
-        {value}
-      </span>
+    <div className="py-1 border-b border-gray-50">
+      <p className="text-xs text-gray-500 leading-tight truncate">{emoji} {label}</p>
+      <p className="text-sm font-semibold text-gray-900 leading-tight">{value}</p>
     </div>
   )
 }
@@ -479,82 +474,46 @@ export default function Home() {
           <>
             {/* Lista del súper */}
             <Card title="Tu lista del súper 🛒">
-              <SectionLabel>Bebidas base</SectionLabel>
-              <Row
-                emoji="🍺"
-                label="Cerveza"
-                value={beerPkg}
-              />
-              <Row
-                emoji="🧃"
-                label="Refresco"
-                value={pl(result.refresco, 'botella') + ' 2L'}
-              />
-              <Row emoji="💧" label="Agua fresca" value={`${result.aguaFresca}L`} />
+              <div className="grid grid-cols-2 gap-x-3">
+                <SectionLabel>Bebidas base</SectionLabel>
+                <Row emoji="🍺" label="Cerveza" value={beerPkg} />
+                <Row emoji="🧃" label="Refresco" value={pl(result.refresco, 'botella') + ' 2L'} />
+                <Row emoji="💧" label="Agua fresca" value={`${result.aguaFresca}L`} />
 
-              {cocktails.size > 0 && (
-                <>
-                  <SectionLabel>Para tus cocteles</SectionLabel>
-                  {result.tequila > 0 && (
-                    <Row emoji="🥃" label="Tequila" value={pl(result.tequila, 'botella') + ' 750ml'} />
-                  )}
-                  {result.mezcal > 0 && (
-                    <Row emoji="🧉" label="Mezcal" value={pl(result.mezcal, 'botella') + ' 750ml'} />
-                  )}
-                  {result.ron > 0 && (
-                    <Row emoji="🍹" label="Ron" value={pl(result.ron, 'botella') + ' 750ml'} />
-                  )}
-                  {result.whisky > 0 && (
-                    <Row emoji="🥃" label="Whisky" value={pl(result.whisky, 'botella') + ' 750ml'} />
-                  )}
-                  {result.squirt > 0 && (
-                    <Row emoji="🧃" label="Squirt / toronja" value={pl(result.squirt, 'botella') + ' 2L'} />
-                  )}
-                  {result.jugoNaranja > 0 && (
-                    <Row emoji="🍊" label="Jugo de naranja" value={`${result.jugoNaranja}L`} />
-                  )}
-                  {result.clamato > 0 && (
-                    <Row emoji="🫙" label="Clamato" value={pl(result.clamato, 'lata') + ' 1L'} />
-                  )}
-                  {result.sangrita > 0 && (
-                    <Row emoji="🧃" label="Sangrita" value={pl(result.sangrita, 'botella')} />
-                  )}
-                </>
-              )}
+                {cocktails.size > 0 && (
+                  <>
+                    <SectionLabel>Para tus cocteles</SectionLabel>
+                    {result.tequila > 0 && <Row emoji="🥃" label="Tequila" value={pl(result.tequila, 'botella') + ' 750ml'} />}
+                    {result.mezcal > 0 && <Row emoji="🧉" label="Mezcal" value={pl(result.mezcal, 'botella') + ' 750ml'} />}
+                    {result.ron > 0 && <Row emoji="🍹" label="Ron" value={pl(result.ron, 'botella') + ' 750ml'} />}
+                    {result.whisky > 0 && <Row emoji="🥃" label="Whisky" value={pl(result.whisky, 'botella') + ' 750ml'} />}
+                    {result.squirt > 0 && <Row emoji="🧃" label="Squirt / toronja" value={pl(result.squirt, 'botella') + ' 2L'} />}
+                    {result.jugoNaranja > 0 && <Row emoji="🍊" label="Jugo de naranja" value={`${result.jugoNaranja}L`} />}
+                    {result.clamato > 0 && <Row emoji="🫙" label="Clamato" value={pl(result.clamato, 'lata') + ' 1L'} />}
+                    {result.sangrita > 0 && <Row emoji="🧃" label="Sangrita" value={pl(result.sangrita, 'botella')} />}
+                  </>
+                )}
 
-              <SectionLabel>Extras</SectionLabel>
-              <Row emoji="🧊" label="Hielo" value={pl(result.hielo, 'bolsa') + ' 5kg'} />
+                <SectionLabel>Extras e ingredientes</SectionLabel>
+                <Row emoji="🧊" label="Hielo" value={pl(result.hielo, 'bolsa') + ' 5kg'} />
+                <Row emoji="🍋" label="Limones" value={`${result.limones} piezas`} />
+                {result.sal > 0 && <Row emoji="🧂" label="Sal" value={pl(result.sal, 'sobre')} />}
+                {result.chilePiquin > 0 && <Row emoji="🌶️" label="Chile piquín" value={pl(result.chilePiquin, 'frasco')} />}
+                {result.tajin > 0 && <Row emoji="🫙" label="Tajín" value={pl(result.tajin, 'frasco')} />}
+                {result.pepino > 0 && <Row emoji="🥒" label="Pepino" value={pl(result.pepino, 'pieza')} />}
+                <Row emoji="🥤" label="Vasos desechables" value={pl(result.vasos, 'paquete') + ' x50'} />
 
-              <SectionLabel>Ingredientes</SectionLabel>
-              <Row emoji="🍋" label="Limones" value={`${result.limones} piezas`} />
-              {result.sal > 0 && (
-                <Row emoji="🧂" label="Sal" value={pl(result.sal, 'sobre')} />
-              )}
-              {result.chilePiquin > 0 && (
-                <Row emoji="🌶️" label="Chile piquín" value={pl(result.chilePiquin, 'frasco')} />
-              )}
-              {result.tajin > 0 && (
-                <Row emoji="🫙" label="Tajín" value={pl(result.tajin, 'frasco')} />
-              )}
-              {result.pepino > 0 && (
-                <Row emoji="🥒" label="Pepino" value={pl(result.pepino, 'pieza')} />
-              )}
-              <Row
-                emoji="🥤"
-                label="Vasos desechables"
-                value={pl(result.vasos, 'paquete') + ' x50'}
-              />
-
-              {(result.cacahuates > 0 || result.papas > 0 || result.chicharron > 0 || result.totopos > 0 || result.frituras > 0) && (
-                <>
-                  <SectionLabel>Botanas 🥜</SectionLabel>
-                  {result.cacahuates > 0 && <Row emoji="🥜" label="Cacahuates" value={pl(result.cacahuates, 'bolsa') + ' 200g'} />}
-                  {result.papas > 0 && <Row emoji="🍟" label="Papas fritas" value={pl(result.papas, 'bolsa')} />}
-                  {result.chicharron > 0 && <Row emoji="🐷" label="Chicharrón" value={pl(result.chicharron, 'bolsa')} />}
-                  {result.totopos > 0 && <Row emoji="🌮" label="Totopos + salsa" value={pl(result.totopos, 'bolsa')} />}
-                  {result.frituras > 0 && <Row emoji="🫙" label="Frituras variadas" value={pl(result.frituras, 'bolsa')} />}
-                </>
-              )}
+                {(result.cacahuates > 0 || result.papas > 0 || result.chicharron > 0 || result.totopos > 0 || result.frituras > 0) && (
+                  <>
+                    <SectionLabel>Botanas 🥜</SectionLabel>
+                    {result.cacahuates > 0 && <Row emoji="🥜" label="Cacahuates" value={pl(result.cacahuates, 'bolsa') + ' 200g'} />}
+                    {result.papas > 0 && <Row emoji="🍟" label="Papas fritas" value={pl(result.papas, 'bolsa')} />}
+                    {result.chicharron > 0 && <Row emoji="🐷" label="Chicharrón" value={pl(result.chicharron, 'bolsa')} />}
+                    {result.totopos > 0 && <Row emoji="🌮" label="Totopos + salsa" value={pl(result.totopos, 'bolsa')} />}
+                    {result.frituras > 0 && <Row emoji="🫙" label="Frituras variadas" value={pl(result.frituras, 'bolsa')} />}
+                  </>
+                )}
+              </div>
             </Card>
 
             {/* Estimador de costo */}
