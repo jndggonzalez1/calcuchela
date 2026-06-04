@@ -162,7 +162,9 @@ function PriceEditor({
     { key: 'whisky' as keyof Prices, label: '🥃 Whisky', unit: '/botella', qty: result.whisky },
     { key: 'aperol' as keyof Prices, label: '🍊 Aperol', unit: '/botella', qty: result.aperol },
     { key: 'prosecco' as keyof Prices, label: '🥂 Prosecco/cava', unit: '/botella', qty: result.prosecco },
+    { key: 'sanGerman' as keyof Prices, label: '🌸 St-Germain', unit: '/botella', qty: result.sanGerman },
     { key: 'aguaMineral' as keyof Prices, label: '💧 Agua mineral', unit: '/botella 500ml', qty: result.aguaMineral },
+    { key: 'menta' as keyof Prices, label: '🌿 Menta', unit: '/manojo', qty: result.menta },
     { key: 'refresco' as keyof Prices, label: '🧃 Refresco', unit: '/2L', qty: result.refresco },
     { key: 'squirt' as keyof Prices, label: '🧃 Squirt', unit: '/2L', qty: result.squirt },
     { key: 'clamato' as keyof Prices, label: '🫙 Clamato', unit: '/lata 1L', qty: result.clamato },
@@ -492,7 +494,9 @@ export default function Home() {
                     {result.whisky > 0 && <Row emoji="🥃" label="Whisky" value={pl(result.whisky, 'botella') + ' 750ml'} />}
                     {result.aperol > 0 && <Row emoji="🍊" label="Aperol" value={pl(result.aperol, 'botella') + ' 750ml'} />}
                     {result.prosecco > 0 && <Row emoji="🥂" label="Prosecco / cava" value={pl(result.prosecco, 'botella') + ' 750ml'} />}
+                    {result.sanGerman > 0 && <Row emoji="🌸" label="St-Germain" value={pl(result.sanGerman, 'botella') + ' 750ml'} />}
                     {result.aguaMineral > 0 && <Row emoji="💧" label="Agua mineral" value={pl(result.aguaMineral, 'botella') + ' 500ml'} />}
+                    {result.menta > 0 && <Row emoji="🌿" label="Menta" value={pl(result.menta, 'manojo')} />}
                     {result.squirt > 0 && <Row emoji="🧃" label="Squirt / toronja" value={pl(result.squirt, 'botella') + ' 2L'} />}
                     {result.jugoNaranja > 0 && <Row emoji="🍊" label="Jugo de naranja" value={`${result.jugoNaranja}L`} />}
                     {result.clamato > 0 && <Row emoji="🫙" label="Clamato" value={pl(result.clamato, 'lata') + ' 1L'} />}

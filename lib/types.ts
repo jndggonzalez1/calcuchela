@@ -50,7 +50,9 @@ export interface CalculationResult {
   whisky: number
   aperol: number
   prosecco: number
+  sanGerman: number
   aguaMineral: number
+  menta: number
   refresco: number
   squirt: number
   jugoNaranja: number
@@ -79,7 +81,9 @@ export interface Prices {
   whisky: number
   aperol: number
   prosecco: number
+  sanGerman: number
   aguaMineral: number
+  menta: number
   refresco: number
   squirt: number
   clamato: number

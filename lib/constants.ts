@@ -8,7 +8,9 @@ export const DEFAULT_PRICES: Prices = {
   whisky: 380,
   aperol: 320,
   prosecco: 180,
+  sanGerman: 450,
   aguaMineral: 20,
+  menta: 15,
   refresco: 35,
   squirt: 35,
   clamato: 45,
@@ -102,7 +104,7 @@ export const COCKTAILS: CocktailInfo[] = [
     emoji: '🌿',
     name: 'Hugo Spritz',
     base: 'Prosecco',
-    ingredients: 'Agua mineral, menta, limones',
+    ingredients: 'St-Germain, agua mineral, menta, limones',
   },
 ]
 
