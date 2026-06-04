@@ -137,15 +137,6 @@ const ALL_TIPS: Tip[] = [
   },
 ]
 
-function getTips(adults: number, cocktailsSize: number): Tip[] {
-  const picked: Tip[] = []
-  picked.push(ALL_TIPS[0]) // hielo/verano siempre
-  picked.push(ALL_TIPS[1]) // limones siempre
-  if (cocktailsSize > 0) picked.push(ALL_TIPS[2]) // truco enfriar si hay cocteles
-  else if (adults >= 15) picked.push(ALL_TIPS[5]) // encargado del hielo si grupo grande
-  else picked.push(ALL_TIPS[4]) // siempre sobra
-  return picked
-}
 
 // ─── Price editor ────────────────────────────────────────────────
 
@@ -477,7 +468,7 @@ export default function Home() {
         <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-5">
           <h2 className="text-lg font-bold text-gray-900 mb-3">Consejos rápidos</h2>
           <div className="space-y-3">
-            {getTips(adults, cocktails.size).map((tip) => (
+            {ALL_TIPS.map((tip) => (
               <div key={tip.title} className="flex gap-3">
                 <span className="text-2xl leading-none shrink-0">{tip.emoji}</span>
                 <div>
@@ -620,7 +611,7 @@ export default function Home() {
             <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-5">
               <h2 className="text-lg font-bold text-gray-900 mb-3">Consejos rápidos</h2>
               <div className="space-y-3">
-                {getTips(adults, cocktails.size).map((tip) => (
+                {ALL_TIPS.map((tip) => (
                   <div key={tip.title} className="flex gap-3">
                     <span className="text-2xl leading-none shrink-0">{tip.emoji}</span>
                     <div>
