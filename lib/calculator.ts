@@ -6,14 +6,6 @@ const DRINK_RATES: Record<GuestType, number> = {
   lemueven: 1.5,
 }
 
-const EVENT_MULTIPLIERS: Record<EventType, number> = {
-  'carne-asada': 1.2,
-  cumpleanos: 1.0,
-  'xv-boda': 0.75,
-  posada: 1.1,
-  casual: 0.9,
-}
-
 const TEQUILA_COCKTAILS: CocktailKey[] = ['paloma', 'charro-negro', 'vampiro']
 const SHOTS_PER_BOTTLE = 16 // 750ml ÷ 45ml
 
@@ -42,7 +34,7 @@ export function calculate(
   const totalPeople = adults + ninos
   if (adults === 0) return empty()
 
-  const rate = DRINK_RATES[guestType] * EVENT_MULTIPLIERS[eventType]
+  const rate = DRINK_RATES[guestType]
   const totalDrinks = adults * rate * hours
 
   const hasMichelada = cocktails.has('michelada')
