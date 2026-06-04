@@ -505,7 +505,7 @@ export default function Home() {
               <Row
                 emoji="🍺"
                 label="Cerveza"
-                value={`${result.cerveza.units} unidades · ${beerPkg}`}
+                value={beerPkg}
               />
               <Row
                 emoji="🧃"

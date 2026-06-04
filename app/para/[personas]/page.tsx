@@ -118,7 +118,7 @@ export default async function Page({
           <h2 className="text-lg font-bold text-gray-900 mb-4">Tu lista del súper 🛒</h2>
 
           <SectionLabel>Bebidas base</SectionLabel>
-          <Row emoji="🍺" label="Cerveza" value={`${result.cerveza.units} unidades · ${beerPkg}`} />
+          <Row emoji="🍺" label="Cerveza" value={beerPkg} />
           <Row emoji="🧃" label="Refresco (Coca, Sprite, Mundet)" value={pl(result.refresco, 'botella') + ' 2L'} />
           <Row emoji="💧" label="Agua fresca" value={`${result.aguaFresca}L`} />
 
