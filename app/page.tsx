@@ -32,9 +32,17 @@ function Counter({
         >
           −
         </button>
-        <span className="w-8 text-center text-xl font-bold text-gray-900 tabular-nums">
-          {value}
-        </span>
+        <input
+          type="number"
+          min="0"
+          value={value}
+          onChange={e => {
+            const n = parseInt(e.target.value)
+            if (!isNaN(n) && n >= 0) onChange(n)
+            else if (e.target.value === '') onChange(0)
+          }}
+          className="w-12 text-center text-xl font-bold text-gray-900 tabular-nums bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-400 focus:rounded-lg"
+        />
         <button
           onClick={() => onChange(value + 1)}
           aria-label={`Agregar ${label}`}
