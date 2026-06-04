@@ -594,22 +594,6 @@ export default function Home() {
               </div>
             </Card>
 
-            {/* Consejos rápidos — abajo del estimador */}
-            <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-5">
-              <h2 className="text-lg font-bold text-gray-900 mb-3">Consejos rápidos</h2>
-              <div className="space-y-3">
-                {ALL_TIPS.map((tip) => (
-                  <div key={tip.title} className="flex gap-3">
-                    <span className="text-2xl leading-none shrink-0">{tip.emoji}</span>
-                    <div>
-                      <p className="font-semibold text-sm text-gray-900">{tip.title}</p>
-                      <p className="text-sm text-gray-500 leading-snug mt-0.5">{tip.body}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Compartir */}
             <Card title="Compartir 📤" className="no-print">
               <p className="text-sm font-semibold text-gray-500 mb-2">Personaliza tu mensaje según el tipo de evento</p>
@@ -664,6 +648,22 @@ export default function Home() {
                 </button>
               </div>
             </Card>
+
+            {/* Consejos rápidos */}
+            <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-5">
+              <h2 className="text-lg font-bold text-gray-900 mb-3">Consejos rápidos</h2>
+              <div className="space-y-3">
+                {ALL_TIPS.map((tip) => (
+                  <div key={tip.title} className="flex gap-3">
+                    <span className="text-2xl leading-none shrink-0">{tip.emoji}</span>
+                    <div>
+                      <p className="font-semibold text-sm text-gray-900">{tip.title}</p>
+                      <p className="text-sm text-gray-500 leading-snug mt-0.5">{tip.body}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
             {/* Crosslink calcuasada */}
             <div className="bg-orange-50 rounded-2xl border border-orange-200 p-5 text-center no-print">
