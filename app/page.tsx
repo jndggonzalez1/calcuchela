@@ -467,22 +467,6 @@ export default function Home() {
           )}
         </Card>
 
-        {/* Consejos rápidos — siempre visibles */}
-        <div className="bg-white rounded-2xl shadow-sm border border-amber-100 p-5">
-          <h2 className="text-lg font-bold text-gray-900 mb-3">Consejos rápidos</h2>
-          <div className="space-y-3">
-            {ALL_TIPS.map((tip) => (
-              <div key={tip.title} className="flex gap-3">
-                <span className="text-2xl leading-none shrink-0">{tip.emoji}</span>
-                <div>
-                  <p className="font-semibold text-sm text-gray-900">{tip.title}</p>
-                  <p className="text-sm text-gray-500 leading-snug mt-0.5">{tip.body}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Results */}
         {!hasResult ? (
           <div className="bg-white rounded-2xl border border-amber-100 p-10 text-center">
