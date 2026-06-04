@@ -119,7 +119,7 @@ export default async function Page({
 
           <SectionLabel>Bebidas base</SectionLabel>
           <Row emoji="🍺" label="Cerveza" value={beerPkg} />
-          <Row emoji="🧃" label="Refresco (Coca, Sprite, Mundet)" value={pl(result.refresco, 'botella') + ' 2L'} />
+          <Row emoji="🧃" label="Refresco" value={pl(result.refresco, 'botella') + ' 2L'} />
           <Row emoji="💧" label="Agua fresca" value={`${result.aguaFresca}L`} />
 
           <SectionLabel>Extras</SectionLabel>

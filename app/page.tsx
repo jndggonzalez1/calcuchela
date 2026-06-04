@@ -509,7 +509,7 @@ export default function Home() {
               />
               <Row
                 emoji="🧃"
-                label="Refresco (Coca, Sprite, Mundet)"
+                label="Refresco"
                 value={pl(result.refresco, 'botella') + ' 2L'}
               />
               <Row emoji="💧" label="Agua fresca" value={`${result.aguaFresca}L`} />
