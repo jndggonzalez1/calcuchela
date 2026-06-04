@@ -100,7 +100,7 @@ export const COCKTAILS: CocktailInfo[] = [
   {
     key: 'hugo',
     emoji: '🌿',
-    name: 'Hugo',
+    name: 'Hugo Spritz',
     base: 'Prosecco',
     ingredients: 'Agua mineral, menta, limones',
   },
